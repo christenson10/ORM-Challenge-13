@@ -6,7 +6,6 @@ const { Category, Product } = require('../../models');
 router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
-  console.log('======================');
   Category.findAll({
     include: [{
       model: Product,
@@ -16,23 +15,7 @@ router.get('/', (req, res) => {
         'price',
         'stock',
         'category_id']
-      // [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
     }],
-    // order: [['created_at', 'DESC']],
-    // include: [
-    //   {
-    //     model: Comment,
-    //     attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
-    //     include: {
-    //       model: User,
-    //       attributes: ['username']
-    //     }
-    //   },
-    //   {
-    //     model: User,
-    //     attributes: ['username']
-    //   }
-    // ]
   })
     .then(dbCategoryData => res.json(dbCategoryData))
     .catch(err => {
@@ -50,21 +33,22 @@ router.get('/:id', (req, res) => {
     where: {
       id: req.params.id
     },
-    attributes: [
-      'id',
-      'product_name',
-      'price',
-      'stock',
-      'category_id',
-      // [sequelize.literal('(SELECT COUNT(*) FROM vote WHERE post.id = vote.post_id)'), 'vote_count']
-    ],
+    include: [{
+      model: Product,
+      attributes: [ 
+        'id',
+        'product_name',
+        'price',
+        'stock',
+        'category_id']
+    }],
   })
-    .then(dbPostData => {
-      if (!dbPostData) {
-        res.status(404).json({ message: 'No post found with this id' });
+    .then(dbCategoryData => {
+      if (!dbCategoryData) {
+        res.status(404).json({ message: 'No category found with this id' });
         return;
       }
-      res.json(dbPostData);
+      res.json(dbCategoryData);
     })
     .catch(err => {
       console.log(err);
@@ -99,7 +83,7 @@ router.put('/:id', (req, res) => {
   )
   .then(dbCategoryData => {
     if (!dbCategoryData) {
-      res.status(404).json({ message: 'No post found with this id' });
+      res.status(404).json({ message: 'No category found with this id' });
       return;
     }
     res.json(dbCategoryData);
