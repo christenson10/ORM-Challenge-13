@@ -16,3 +16,11 @@ As a manager at an internet retail company, I want a back end for my e-commerce 
 https://github.com/christenson10/ORM-Challenge-13.git
 ## Video Link
 https://youtu.be/At2pyOQ8pD0
+
+## README Preview 1
+Example of showing find all categories
+![Screenshot1](ORM-Challenge1.jpg)
+
+## README Preview 2
+Example of showing fine one category
+![Screenshot1](ORM-Challenge2.jpg)
